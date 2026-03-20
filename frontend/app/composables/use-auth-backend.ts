@@ -37,10 +37,46 @@ export const useAuthBackend = function (): AuthState {
 
   const runtimeConfig = useRuntimeConfig();
   const tokenName = runtimeConfig.public.AUTH_TOKEN;
-  const tokenCookie = useCookie(tokenName, getTokenCookieOptions());
+  const tokenCookieOptions = getTokenCookieOptions();
+  const defaultTokenMaxAge = tokenCookieOptions.maxAge;
+  const tokenCookie = useCookie<string | null>(tokenName, tokenCookieOptions);
+
+  function decodeTokenPayload(token: string): { exp?: number } | null {
+    try {
+      const payload = token.split(".")[1];
+      if (!payload) {
+        return null;
+      }
+
+      const normalizedPayload = payload.replace(/-/g, "+").replace(/_/g, "/");
+      const padding = (4 - normalizedPayload.length % 4) % 4;
+      const paddedPayload = `${normalizedPayload}${"=".repeat(padding)}`;
+      return JSON.parse(window.atob(paddedPayload));
+    }
+    catch {
+      return null;
+    }
+  }
+
+  function getTokenMaxAge(token: string): number {
+    const payload = decodeTokenPayload(token);
+    if (typeof payload?.exp !== "number") {
+      return defaultTokenMaxAge;
+    }
+
+    return Math.max(Math.floor(payload.exp - Date.now() / 1000), 0);
+  }
 
   function setToken(token: string | null) {
-    tokenCookie.value = token;
+    if (token === null) {
+      tokenCookie.value = null;
+      return;
+    }
+
+    useCookie<string | null>(tokenName, {
+      ...tokenCookieOptions,
+      maxAge: getTokenMaxAge(token),
+    }).value = token;
   }
 
   function handleAuthError(error: any, redirect = false) {

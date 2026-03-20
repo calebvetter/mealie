@@ -10,7 +10,7 @@ from mealie.schema.user.user import PrivateUser
 
 ALGORITHM = "HS256"
 ISS = "mealie"
-remember_me_duration = timedelta(days=14)
+remember_me_duration = timedelta(days=30)
 
 
 class AuthProvider[T](metaclass=abc.ABCMeta):
