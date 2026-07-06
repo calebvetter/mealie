@@ -648,7 +648,7 @@
     "api-extras-description": "Dodatci recepata su ključna značajka Mealie API-ja. Omogućuju vam stvaranje prilagođenih JSON ključ/vrijednost parova unutar recepata kako biste ih mogli koristiti iz aplikacija trećih strana. Možete koristiti ove ključeve kako biste prenijeli informacije koje će pokrenuti automatizaciju ili prilagođene poruke koje će biti prenesene na željeni uređaj.",
     "message-key": "Ključ poruke",
     "parse": "Razluči (parsiraj)",
-    "ingredients-not-parsed-description": "It looks like your ingredients aren't parsed yet. Click the \"{parse}\" button below to parse your ingredients into structured foods.",
+    "ingredients-not-parsed-description": "It looks like your ingredients aren't parsed yet.",
     "attach-images-hint": "Priložite slike povlačenjem i ispuštanjem u uređivaču",
     "drop-image": "Drop image",
     "enable-ingredient-amounts-to-use-this-feature": "Omogući korištenje količina sastojaka za ovu značajku",

@@ -648,7 +648,7 @@
     "api-extras-description": "Recipe Extras er mikilvægur hluti af Mealie API-inu. Þær gera þér kleift að búa til sérsniðin JSON-lyklagildi (key/value pairs) innan uppskrifta, sem hægt er að vísa í frá utanaðkomandi forritum. Þú getur notað þessa lykla til að veita upplýsingar, til dæmis til að ræsa sjálfvirkar aðgerðir eða senda sérsniðin skilaboð til tækis að eigin vali.",
     "message-key": "Lykill",
     "parse": "Greina uppskrift",
-    "ingredients-not-parsed-description": "Það lítur út fyrir að innihaldsefnin þín hafi ekki verið greind. Ýttu á „{parse}“ takkann fyrir neðan til að lesa og greina uppskriftina.",
+    "ingredients-not-parsed-description": "Það lítur út fyrir að innihaldsefnin þín hafi ekki verið greind.",
     "attach-images-hint": "Bættu við myndum með því að draga og sleppa þeim inn í ritilinn",
     "drop-image": "Setja mynd",
     "enable-ingredient-amounts-to-use-this-feature": "Kveiktu á magni innihalds til að nota þennan möguleika",

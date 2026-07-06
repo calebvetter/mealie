@@ -5,3 +5,62 @@
 .v-tab {
   text-transform: none !important;
 }
+
+:root {
+  --mealie-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --mealie-safe-area-left: env(safe-area-inset-left, 0px);
+  --mealie-safe-area-right: env(safe-area-inset-right, 0px);
+  --mealie-safe-area-top: env(safe-area-inset-top, 0px);
+}
+
+.v-application {
+  padding-left: var(--mealie-safe-area-left);
+  padding-right: var(--mealie-safe-area-right);
+}
+
+.v-main {
+  padding-bottom: var(--mealie-safe-area-bottom);
+}
+
+.v-navigation-drawer {
+  padding-bottom: var(--mealie-safe-area-bottom);
+}
+
+.v-dialog--fullscreen > .v-overlay__content > .v-card > .v-card-actions,
+.v-dialog--fullscreen > .v-overlay__content > form > .v-card > .v-card-actions {
+  padding-bottom: calc(8px + var(--mealie-safe-area-bottom));
+}
+
+.v-snackbar--bottom .v-overlay__content {
+  margin-bottom: var(--mealie-safe-area-bottom);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .v-btn:hover:not(:focus-visible) > .v-btn__overlay,
+  .v-card:hover:not(:focus-visible) > .v-card__overlay,
+  .v-chip:hover:not(:focus-visible) > .v-chip__overlay,
+  .v-expansion-panel-title:hover:not(:focus-visible) > .v-expansion-panel-title__overlay,
+  .v-list-item:hover:not(:focus-visible) > .v-list-item__overlay,
+  .v-stepper-item:hover:not(:focus-visible) > .v-stepper-item__overlay {
+    opacity: 0;
+  }
+
+  .v-btn--active:hover:not(:focus-visible) > .v-btn__overlay,
+  .v-btn[aria-haspopup="menu"][aria-expanded="true"]:hover:not(:focus-visible) > .v-btn__overlay,
+  .v-card--active:hover:not(:focus-visible) > .v-card__overlay,
+  .v-card[aria-haspopup="menu"][aria-expanded="true"]:hover:not(:focus-visible) > .v-card__overlay,
+  .v-chip--active:hover:not(:focus-visible) > .v-chip__overlay,
+  .v-chip[aria-haspopup="menu"][aria-expanded="true"]:hover:not(:focus-visible) > .v-chip__overlay,
+  .v-expansion-panel-title--focusable.v-expansion-panel-title--active:hover:not(:focus-visible)
+    .v-expansion-panel-title__overlay,
+  .v-list-item--active:hover:not(:focus-visible) > .v-list-item__overlay,
+  .v-list-item[aria-haspopup="menu"][aria-expanded="true"]:hover:not(:focus-visible) > .v-list-item__overlay,
+  .v-stepper-item--active:hover:not(:focus-visible) > .v-stepper-item__overlay,
+  .v-stepper-item[aria-haspopup="menu"][aria-expanded="true"]:hover:not(:focus-visible) > .v-stepper-item__overlay {
+    opacity: calc(var(--v-activated-opacity) * var(--v-theme-overlay-multiplier));
+  }
+
+  .v-selection-control__input:hover::before {
+    opacity: 0;
+  }
+}

@@ -648,7 +648,7 @@
     "api-extras-description": "Dodatni podatki za recepte so ključna funkcionalnost Mealie APIja. Omogočajo ustvarjanje lastnih JSON ključ / vrednost parov v okviru recepta, da lahko do njih dostopajo zunanje aplikacije. Te ključe lahko uporabiš za posredovanje informacij, na primer za sprožanje avtomatike ali sporočanje prilagojenih sporočil na poljubno napravo.",
     "message-key": "Ključ sporočila",
     "parse": "Razloči",
-    "ingredients-not-parsed-description": "Zdi se, da vaše sestavine še niso razčlenjene. Kliknite spodnji gumb »{parse}«, da jih razčlenite v strukturirana živila.",
+    "ingredients-not-parsed-description": "Zdi se, da vaše sestavine še niso razčlenjene.",
     "attach-images-hint": "Slike pripneš z odlaganjem v urejevalnik",
     "drop-image": "Odloži sliko",
     "enable-ingredient-amounts-to-use-this-feature": "Vključi količine sestavin, da uporabiš to funkcijo",

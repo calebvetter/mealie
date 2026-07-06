@@ -66,10 +66,10 @@
               :food-error="!!currentMissingFood"
               :food-error-tooltip="$t('recipe.parser.this-food-could-not-be-parsed-automatically')"
             />
-            <v-card-actions>
-              <v-spacer />
+            <v-card-actions class="parse-missing-actions d-flex flex-column flex-sm-row align-stretch align-sm-center justify-end ga-2">
               <BaseButton
                 v-if="currentMissingUnit && !currentIng.ingredient.unit?.id"
+                class="parse-missing-action"
                 color="warning"
                 size="small"
                 @click="createMissingUnit"
@@ -82,6 +82,7 @@
                     && currentIng.ingredient.unit?.id
                     && currentMissingUnit.toLowerCase() != currentIng.ingredient.unit?.name.toLowerCase()
                 "
+                class="parse-missing-action"
                 color="warning"
                 size="small"
                 @click="addMissingUnitAsAlias"
@@ -90,6 +91,7 @@
               </BaseButton>
               <BaseButton
                 v-if="currentMissingFood && !currentIng.ingredient.food?.id"
+                class="parse-missing-action"
                 color="warning"
                 size="small"
                 @click="createMissingFood"
@@ -102,6 +104,7 @@
                     && currentIng.ingredient.food?.id
                     && currentMissingFood.toLowerCase() != currentIng.ingredient.food?.name.toLowerCase()
                 "
+                class="parse-missing-action"
                 color="warning"
                 size="small"
                 @click="addMissingFoodAsAlias"
@@ -557,3 +560,23 @@ function saveIngs() {
   state.loading.save = true;
 }
 </script>
+
+<style scoped>
+.parse-missing-action {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+}
+
+:deep(.parse-missing-action .v-btn__content) {
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+@media (max-width: 599.98px) {
+  .parse-missing-action {
+    width: 100%;
+  }
+}
+</style>

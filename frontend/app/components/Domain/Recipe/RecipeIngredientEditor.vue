@@ -63,7 +63,7 @@
           class="mx-1"
           :placeholder="$t('recipe.choose-unit')"
           clearable
-          :menu-props="{ attach: props.menuAttachTarget, maxHeight: '250px' }"
+          :menu-props="autocompleteMenuProps"
           @keyup.enter="handleUnitEnter"
         >
           <template #prepend>
@@ -122,7 +122,7 @@
           class="mx-1 py-0"
           :placeholder="$t('recipe.choose-food')"
           clearable
-          :menu-props="{ attach: props.menuAttachTarget, maxHeight: '250px' }"
+          :menu-props="autocompleteMenuProps"
           @keyup.enter="handleFoodEnter"
         >
           <template #prepend>
@@ -225,8 +225,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, toRefs, watch } from "vue";
+import { ref, computed, onScopeDispose, reactive, toRefs, watch } from "vue";
 import { useDisplay } from "vuetify";
+import type { LocationStrategyFunction } from "vuetify";
 import { useI18n } from "vue-i18n";
 import { useFoodStore, useFoodData, useUnitStore, useUnitData } from "~/composables/store";
 import { useSearch } from "~/composables/use-search";
@@ -292,6 +293,87 @@ const state = reactive({
   showTitle: false,
   isRecipe: props.isRecipe,
 });
+
+const roundByDevicePixelRatio = (value: number) => {
+  const ratio = window.devicePixelRatio || 1;
+
+  return Math.round(value * ratio) / ratio;
+};
+
+const getScrollParents = (el: Element) => {
+  const scrollParents: Array<Element | Document> = [document];
+  let parent = el.parentElement;
+
+  while (parent) {
+    const { overflow, overflowX, overflowY } = window.getComputedStyle(parent);
+
+    if (/(auto|scroll|overlay)/.test(`${overflow}${overflowX}${overflowY}`)) {
+      scrollParents.push(parent);
+    }
+
+    parent = parent.parentElement;
+  }
+
+  return scrollParents;
+};
+
+const stickBelowInputLocationStrategy: LocationStrategyFunction = (data, _props, contentStyles) => {
+  const updateLocation = () => {
+    const target = data.target.value;
+    const contentEl = data.contentEl.value;
+
+    if (!target || !contentEl || Array.isArray(target)) {
+      return;
+    }
+
+    const rect = target.getBoundingClientRect();
+    const offsetParentRect = contentEl.offsetParent?.getBoundingClientRect();
+    const offsetParentLeft = offsetParentRect?.left || 0;
+    const offsetParentTop = offsetParentRect?.top || 0;
+    const width = roundByDevicePixelRatio(rect.width);
+
+    contentStyles.value = {
+      "--v-overlay-anchor-origin": "bottom left",
+      "bottom": "auto",
+      "left": `${roundByDevicePixelRatio(rect.left - offsetParentLeft)}px`,
+      "maxWidth": `${width}px`,
+      "minWidth": `${width}px`,
+      "position": "absolute",
+      "right": "auto",
+      "top": `${roundByDevicePixelRatio(rect.bottom - offsetParentTop)}px`,
+      "transformOrigin": "top left",
+    };
+  };
+
+  updateLocation();
+
+  const scrollParents = new Set<Element | Document>();
+  const target = data.target.value;
+  const contentEl = data.contentEl.value;
+
+  if (target && !Array.isArray(target)) {
+    getScrollParents(target).forEach(parent => scrollParents.add(parent));
+  }
+
+  if (contentEl) {
+    getScrollParents(contentEl).forEach(parent => scrollParents.add(parent));
+  }
+
+  scrollParents.forEach(parent => parent.addEventListener("scroll", updateLocation, { passive: true }));
+
+  onScopeDispose(() => {
+    scrollParents.forEach(parent => parent.removeEventListener("scroll", updateLocation));
+  });
+
+  return { updateLocation };
+};
+
+const autocompleteMenuProps = computed(() => ({
+  attach: props.menuAttachTarget,
+  locationStrategy: stickBelowInputLocationStrategy,
+  maxHeight: "250px",
+  scrollStrategy: "none",
+}));
 
 const contextMenuOptions = computed(() => {
   const options = [

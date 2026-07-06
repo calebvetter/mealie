@@ -648,7 +648,7 @@
     "api-extras-description": "레시피 추가 항목은 Mealie API의 핵심 기능입니다. 이를 통해 레시피 내에서 사용자 정의 JSON 키/값 쌍을 생성하여 타사 애플리케이션에서 참조할 수 있습니다. 이러한 키를 활용하여 정보를 제공할 수 있으며, 예를 들어 자동화를 트리거하거나 원하는 기기로 전달할 사용자 정의 메시지를 설정하는 데 사용할 수 있습니다.",
     "message-key": "메시지 키",
     "parse": "추출하기",
-    "ingredients-not-parsed-description": "재료가 아직 분석되지 않은 것 같습니다. 아래의 \"{parse}\" 버튼을 클릭하여 재료를 구조화된 식품 목록으로 분석하세요.",
+    "ingredients-not-parsed-description": "재료가 아직 분석되지 않은 것 같습니다.",
     "attach-images-hint": "이미지를 편집기로 끌어다 놓아 첨부하세요",
     "drop-image": "이미지 끌어다 놓기",
     "enable-ingredient-amounts-to-use-this-feature": "이 기능을 사용하려면 재료 양을 활성화하세요",

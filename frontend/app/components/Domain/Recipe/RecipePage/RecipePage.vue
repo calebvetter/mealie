@@ -20,8 +20,8 @@
       @update:model-value="toggleIsParsing"
       @save="saveParsedIngredients"
     />
-    <v-container v-show="!isCookMode" key="recipe-page" class="px-0" :class="{ 'pa-0': $vuetify.display.smAndDown }">
-      <v-card flat class="d-print-none">
+    <v-container v-show="!isCookMode" key="recipe-page" class="recipe-page-container px-0" :class="{ 'pa-0': $vuetify.display.smAndDown }">
+      <v-card :flat="$vuetify.display.smAndDown" class="d-print-none">
         <RecipePageHeader
           ref="recipeToolbar"
           :recipe="recipe"
@@ -489,6 +489,14 @@ const scale = ref(1);
 // expose to template
 // (all variables used in template are top-level in <script setup>)
 </script>
+
+<style scoped>
+@media (max-width: 599.98px) {
+  .recipe-page-container {
+    padding-bottom: calc(16px + var(--mealie-safe-area-bottom)) !important;
+  }
+}
+</style>
 
 <style lang="css">
 .flip-list-move {

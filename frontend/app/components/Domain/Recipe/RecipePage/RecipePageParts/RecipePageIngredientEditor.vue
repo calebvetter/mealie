@@ -5,7 +5,19 @@
         {{ $t("recipe.ingredients") }}
       </h2>
       <BannerWarning v-if="!hasFoodOrUnit">
-        {{ $t("recipe.ingredients-not-parsed-description", { parse: $t('recipe.parse') }) }}
+        <div class="ingredients-not-parsed-alert d-flex align-center justify-space-between ga-3 flex-wrap">
+          <span>{{ $t("recipe.ingredients-not-parsed-description") }}</span>
+          <BaseButton
+            color="accent"
+            size="small"
+            @click="toggleIsParsing(true)"
+          >
+            <template #icon>
+              {{ $globals.icons.foods }}
+            </template>
+            {{ $t("recipe.parse") }}
+          </BaseButton>
+        </div>
       </BannerWarning>
     </div>
     <VueDraggable
@@ -263,6 +275,10 @@ function insertNewIngredient(dest: number) {
 </script>
 
 <style scoped>
+.ingredients-not-parsed-alert {
+  min-height: 36px;
+}
+
 .split-main {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;

@@ -648,7 +648,7 @@
     "api-extras-description": "A receptek extrái a Mealie API egyik legfontosabb szolgáltatása. Lehetővé teszik, hogy egyéni JSON kulcs/érték párokat hozzon létre egy receptben, amelyekre harmadik féltől származó alkalmazásokból hivatkozhat. Ezeket a kulcsokat információszolgáltatásra használhatja, például automatizmusok vagy egyéni üzenetek indítására, amelyeket a kívánt eszközre küldhet.",
     "message-key": "Üzenetkulcs",
     "parse": "Előkészítés",
-    "ingredients-not-parsed-description": "Úgy tűnik, hogy az összetevőket még nem elemezték. Kattintson az alábbi „{parse}” gombra, hogy az összetevőket strukturált élelmiszerekké alakítsa.",
+    "ingredients-not-parsed-description": "Úgy tűnik, hogy az összetevőket még nem elemezték.",
     "attach-images-hint": "Képek csatolása a szerkesztőbe történő húzásával és ejtésével",
     "drop-image": "Dobd ide a képet",
     "enable-ingredient-amounts-to-use-this-feature": "Engedélyezze az összetevők mennyiségét a funkció használatához",

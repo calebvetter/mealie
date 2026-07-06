@@ -648,7 +648,7 @@
     "api-extras-description": "Recipes extras sunt o caracteristică cheie a API-ului Mealie. Îți permit să creezi perechi personalizate de cheie/valoare JSON într-o rețetă, ca să faci referire la aplicații terțe. Puteți utiliza aceste chei pentru a furniza informații, de exemplu pentru a declanșa automatizări sau mesaje personalizate pentru a transmite dispozitivul dorit.",
     "message-key": "Cheie mesaj",
     "parse": "Parsează",
-    "ingredients-not-parsed-description": "Se pare că ingredientele tale nu sunt încă analizate. Apăsați butonul \"{parse}\" de mai jos pentru a analiza ingredientele în alimente structurate.",
+    "ingredients-not-parsed-description": "Se pare că ingredientele tale nu sunt încă analizate.",
     "attach-images-hint": "Atașează imagini trăgându-le cu mouse-ul și plasându-le în editor",
     "drop-image": "Trage imaginea",
     "enable-ingredient-amounts-to-use-this-feature": "Activaţi cantităţile de ingrediente pentru a utiliza această funcționalitate",
