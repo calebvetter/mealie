@@ -1,9 +1,11 @@
 import os
 
+import jwt
 import pytest
 from fastapi.testclient import TestClient
 
 from mealie.core.config import get_app_settings
+from mealie.core.security.providers.auth_provider import ALGORITHM, DURATION_CLAIM, session_duration
 from mealie.services.user_services.user_service import UserService
 from tests.utils import api_routes
 from tests.utils.factories import random_string
@@ -35,6 +37,37 @@ def test_user_token_refresh(api_client: TestClient, admin_user: TestUser):
     response = api_client.post(api_routes.auth_refresh, headers=admin_user.token)
     response = api_client.get(api_routes.users_self, headers=admin_user.token)
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize("remember_me", [True, False], ids=["remember me", "regular"])
+def test_refresh_preserves_the_session_length(api_client: TestClient, remember_me: bool):
+    """
+    Refreshing must re-issue a token for the same window the original was granted.
+
+    Previously the refresh endpoint always minted a `TOKEN_TIME` token, so a long-lived session
+    was silently cut back to a couple of days the first time anything triggered a refresh.
+    """
+    settings = get_app_settings()
+
+    form_data = {
+        "username": settings._DEFAULT_EMAIL,
+        "password": settings._DEFAULT_PASSWORD,
+        "remember_me": str(remember_me),
+    }
+    login = api_client.post(api_routes.auth_token, data=form_data)
+    assert login.status_code == 200
+
+    original = login.json()["access_token"]
+    granted = jwt.decode(original, settings.SECRET, algorithms=[ALGORITHM])[DURATION_CLAIM]
+
+    expected = session_duration(remember_me=remember_me).total_seconds()
+    assert granted == expected
+
+    refreshed = api_client.get(api_routes.auth_refresh, headers={"Authorization": f"Bearer {original}"})
+    assert refreshed.status_code == 200
+
+    claims = jwt.decode(refreshed.json()["access_token"], settings.SECRET, algorithms=[ALGORITHM])
+    assert claims[DURATION_CLAIM] == granted
 
 
 @pytest.mark.parametrize("use_token", [True, False], ids=["with token", "without token"])

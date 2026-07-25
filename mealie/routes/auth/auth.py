@@ -8,10 +8,11 @@ from pydantic import BaseModel
 from sqlalchemy.orm.session import Session
 from starlette.datastructures import URLPath
 
-from mealie.core import root_logger, security
+from mealie.core import root_logger
 from mealie.core.config import get_app_settings
-from mealie.core.dependencies import get_current_user
+from mealie.core.dependencies.dependencies import get_current_user, oauth2_scheme_soft_fail
 from mealie.core.exceptions import MissingClaimException, UserLockedOut
+from mealie.core.security.providers.auth_provider import AuthProvider, renewal_duration
 from mealie.core.security.providers.openid_provider import OpenIDProvider
 from mealie.core.security.security import get_auth_provider
 from mealie.db.db_setup import generate_session
@@ -145,9 +146,19 @@ async def oauth_callback(request: Request, session: Session = Depends(generate_s
 
 
 @user_router.get("/refresh")
-async def refresh_token(current_user: PrivateUser = Depends(get_current_user)):
-    """Use a valid token to get another token"""
-    access_token = security.create_access_token(data={"sub": str(current_user.id)})
+async def refresh_token(
+    request: Request,
+    current_user: PrivateUser = Depends(get_current_user),
+    token: str | None = Depends(oauth2_scheme_soft_fail),
+):
+    """
+    Use a valid token to get another token.
+
+    The new token is granted the same total lifetime as the one presented, so an active user's
+    session slides forward instead of being cut back to `TOKEN_TIME` on every renewal.
+    """
+    token = token or request.cookies.get("mealie.access_token")
+    access_token, _ = AuthProvider.create_access_token({"sub": str(current_user.id)}, renewal_duration(token))
     return MealieAuthToken.respond(access_token)
 
 

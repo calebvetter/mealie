@@ -120,6 +120,10 @@
 
     Login session can be configured by setting the `TOKEN_TIME` variable on the backend container.
 
+    Sessions are sliding: each time you use Mealie your token is renewed for the same length it
+    was originally granted, so you stay logged in as long as you come back within the window.
+    Checking "Remember Me" at login grants a 30 day session when that is longer than `TOKEN_TIME`.
+
     - [Backend Config](./installation/backend-config.md)
 
 
